@@ -116,5 +116,5 @@ public class PropertyServiceImpl implements PropertyService {
         if (property.getAgent() != null) dto.setAgentId(property.getAgent().getId());
         return dto;
     }
-    
+
 }
