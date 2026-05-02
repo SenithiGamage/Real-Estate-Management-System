@@ -1,0 +1,60 @@
+package edu.icet.ecom.controller;
+
+
+import edu.icet.ecom.dto.InquiryDTO;
+import edu.icet.ecom.service.InquiryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/inquiries")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
+public class InquiryController {
+
+    private final InquiryService inquiryService;
+
+    // Create New Inquiry
+    @PostMapping
+    public ResponseEntity<InquiryDTO> createInquiry(@RequestBody InquiryDTO inquiryDTO) {
+        InquiryDTO saved = inquiryService.saveInquiry(inquiryDTO);
+        return ResponseEntity.ok(saved);
+    }
+
+    // Get All Inquiries
+    @GetMapping
+    public ResponseEntity<List<InquiryDTO>> getAllInquiries() {
+        return ResponseEntity.ok(inquiryService.getAllInquiries());
+    }
+
+    // Get Inquiries by Property
+    @GetMapping("/property/{propertyId}")
+    public ResponseEntity<List<InquiryDTO>> getInquiriesByProperty(@PathVariable Long propertyId) {
+        return ResponseEntity.ok(inquiryService.getInquiriesByProperty(propertyId));
+    }
+
+    // Get Inquiries by Customer Email
+    @GetMapping("/customer")
+    public ResponseEntity<List<InquiryDTO>> getInquiriesByCustomer(@RequestParam String email) {
+        return ResponseEntity.ok(inquiryService.getInquiriesByCustomerEmail(email));
+    }
+
+    // Update Inquiry Status
+    @PutMapping("/{id}/status")
+    public ResponseEntity<InquiryDTO> updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        InquiryDTO updated = inquiryService.updateInquiryStatus(id, status);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+    }
+
+    // Delete Inquiry
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInquiry(@PathVariable Long id) {
+        inquiryService.deleteInquiry(id);
+        return ResponseEntity.noContent().build();
+    }
+}
