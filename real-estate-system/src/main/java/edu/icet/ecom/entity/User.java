@@ -1,10 +1,9 @@
-package edu.icet.ecom.model;
+package edu.icet.ecom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.mapping.Property;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
 
 public class User {
     @Id
-    private Long id1;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,14 +27,13 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    private String fullName;
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role; // Enum: CUSTOMER, SELLER, AGENT, ADMIN
 
     @OneToMany(mappedBy = "owner")
     private List<Property> properties;
-}
-
-enum Role {
-    CUSTOMER, SELLER, AGENT, ADMIN
 }

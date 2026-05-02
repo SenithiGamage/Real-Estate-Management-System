@@ -1,9 +1,11 @@
-package edu.icet.ecom.model;
+package edu.icet.ecom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "properties")
@@ -22,13 +24,18 @@ public class Property {
     @Column(nullable = false)
     private String location;
 
+    private String address;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private PropertyType propertyType;
 
     @Column(nullable = false)
-    private Double price; // cite: 327
+    private Double price;
 
     private Double size;
+    private Integer bedrooms;
+    private Integer bathrooms;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -38,13 +45,11 @@ public class Property {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private User owner; 
-}
+    private User owner;
 
-enum PropertyType {
-    HOUSE, LAND, APARTMENT
-}
+    @ManyToOne
+    @JoinColumn(name = "agent_id")
+    private User agent;
 
-enum PropertyStatus {
-    AVAILABLE, SOLD, RENTED
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

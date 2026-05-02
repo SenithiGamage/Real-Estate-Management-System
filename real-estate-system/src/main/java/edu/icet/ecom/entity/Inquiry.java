@@ -1,4 +1,4 @@
-package edu.icet.ecom.model;
+package edu.icet.ecom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,6 +22,10 @@ public class Inquiry {
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private User customer;
+
     @Column(nullable = false)
     private String customerName;
 
@@ -31,12 +35,10 @@ public class Inquiry {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String message;
 
+    private LocalDateTime visitDate;
+
     @Enumerated(EnumType.STRING)
     private InquiryStatus status = InquiryStatus.PENDING;
 
     private LocalDateTime createdAt = LocalDateTime.now();
-}
-
-enum InquiryStatus {
-    PENDING, RESPONDED, CLOSED
 }
