@@ -1,0 +1,19 @@
+.navbar {
+  background: #1e3a8a;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  margin-left: 1.5rem;
+  text-decoration: none;
+}
+
+.app-container {
+  min-height: 100vh;
+  background: #f8fafc;
+}
