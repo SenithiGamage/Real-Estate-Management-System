@@ -1,0 +1,6 @@
+<h2>My Inquiries</h2>
+<div *ngFor="let item of inquiries" class="inquiry-card">
+  <h4>{{ item.title }}</h4>
+  <p>{{ item.location }} - Rs. {{ item.price }}</p>
+  <button>View Details</button>
+</div>
