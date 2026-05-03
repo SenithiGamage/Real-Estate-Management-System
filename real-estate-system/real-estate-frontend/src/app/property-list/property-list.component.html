@@ -1,20 +1,14 @@
-<div class="property-container">
-  <h1>Available Properties</h1>
+<div class="filter-section">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterProperties()"
+    placeholder="Search by title or location..." />
 
-  <div *ngIf="loading" class="loading">Loading properties...</div>
-
-  <div class="properties-grid">
-    <div *ngFor="let property of properties" class="property-card">
-      <h3>{{ property.title }}</h3>
-      <p><strong>Location:</strong> {{ property.location }}</p>
-      <p><strong>Price:</strong> Rs. {{ property.price | number }}</p>
-      <p><strong>Type:</strong> {{ property.propertyType }}</p>
-      <p><strong>Status:</strong> {{ property.status }}</p>
-
-      <button class="btn-inquiry">Send Inquiry</button>
-    </div>
-  </div>
-  <div *ngIf="error" class="error-message">
-    {{ error }}
-  </div>
+  <select [(ngModel)]="selectedStatus" (change)="filterProperties()">
+    <option value="">All Status</option>
+    <option value="AVAILABLE">Available</option>
+    <option value="SOLD">Sold</option>
+    <option value="RENTED">Rented</option>
+  </select>
 </div>
