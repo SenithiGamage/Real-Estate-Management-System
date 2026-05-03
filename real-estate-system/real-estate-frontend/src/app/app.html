@@ -1,13 +1,19 @@
 <div class="app-container">
+  <!-- Navbar -->
   <nav class="navbar">
-    <h2>🏠 RealEstate LK</h2>
+    <div class="logo">
+      <span>🏠</span>
+      <span>RealEstate LK</span>
+    </div>
+
     <div class="nav-links">
-      <a routerLink="/">Home</a>
-      <a routerLink="/properties">Properties</a>
-      <a routerLink="/inquiries">My Inquiries</a>
-      <a routerLink="/login">Login</a>
+      <a routerLink="/" routerLinkActive="active">Home</a>
+      <a routerLink="/properties" routerLinkActive="active">Properties</a>
+      <a routerLink="/inquiries" routerLinkActive="active">My Inquiries</a>
+      <a routerLink="/login" routerLinkActive="active">Login</a>
     </div>
   </nav>
 
+  <!-- Page Content -->
   <router-outlet></router-outlet>
 </div>
