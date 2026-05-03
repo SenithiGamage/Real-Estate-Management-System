@@ -6,11 +6,14 @@
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .login-container h2 {
   color: #1e3a8a;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 .login-container input {
@@ -20,14 +23,17 @@
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-container input:focus {
   outline: none;
   border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.btn-login {
+button {
   width: 100%;
   background: #1e40af;
   color: white;
@@ -38,8 +44,15 @@
   font-weight: bold;
   cursor: pointer;
   margin-top: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.btn-login:hover {
-  background: #1e3a8a;
+button:hover {
+  background: #1e3a8a;[cite: 16]
+  transform: translateY(-2px);
+}
+
+/* Active effect when the button is clicked */
+button:active {
+  transform: translateY(0);
 }
