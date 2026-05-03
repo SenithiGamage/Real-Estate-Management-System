@@ -8,6 +8,7 @@
   color: #1e3a8a;
   margin-bottom: 1.5rem;
   text-align: center;
+  font-size: 2rem;
 }
 
 .inquiries-grid {
@@ -23,28 +24,42 @@
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e2e8f0;
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
 .inquiry-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
 }
 
 .inquiry-card h4 {
   margin: 0 0 0.8rem 0;
   color: #1e40af;
+  font-size: 1.25rem;
+}
+
+.inquiry-details {
+  flex-grow: 1;
 }
 
 .inquiry-card p {
   margin: 8px 0;
   color: #475569;
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .inquiry-card .status {
   display: inline-block;
   padding: 4px 12px;
   border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
   font-size: 0.9rem;
   margin-top: 10px;
+  align-self: flex-start;
 }
 
 .status-PENDING {
@@ -70,6 +85,8 @@
   border-radius: 5px;
   cursor: pointer;
   margin-top: 12px;
+  font-weight: 600;
+  transition: background 0.2s;
 }
 
 .btn-view:hover {

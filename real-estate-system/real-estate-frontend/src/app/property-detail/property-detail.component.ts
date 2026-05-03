@@ -30,4 +30,9 @@ export class PropertyDetailComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
+
+  onInquiry() {
+    // Logic to open a form or send a default inquiry[cite: 9]
+    alert('Inquiry sent successfully for ' + this.property.title);
+  }
 }

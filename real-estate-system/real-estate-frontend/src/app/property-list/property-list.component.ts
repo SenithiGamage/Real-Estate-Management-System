@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { PropertyService } from '../property.service';
 
 @Component({
   selector: 'app-property-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.css'
 })
@@ -17,7 +18,6 @@ export class PropertyListComponent implements OnInit {
   loading = true;
   error = '';
 
-  // Search & Filter
   searchTerm = '';
   selectedStatus = '';
 
@@ -28,13 +28,16 @@ export class PropertyListComponent implements OnInit {
   }
 
   loadProperties() {
+    this.loading = true;
     this.propertyService.getAllProperties().subscribe({
       next: (data) => {
-        this.properties = data;
-        this.filteredProperties = data;
+        console.log('✅ Properties loaded:', data);
+        this.properties = data || [];
+        this.filteredProperties = [...this.properties];
         this.loading = false;
       },
       error: (err) => {
+        console.error('❌ Error:', err);
         this.error = 'Failed to load properties';
         this.loading = false;
       }
@@ -42,10 +45,10 @@ export class PropertyListComponent implements OnInit {
   }
 
   filterProperties() {
-    this.filteredProperties = this.properties.filter(property => {
-      const matchesSearch = property.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        property.location.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesStatus = !this.selectedStatus || property.status === this.selectedStatus;
+    this.filteredProperties = this.properties.filter(p => {
+      const matchesSearch = (p.title || '').toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        (p.location || '').toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesStatus = !this.selectedStatus || p.status === this.selectedStatus;
       return matchesSearch && matchesStatus;
     });
   }

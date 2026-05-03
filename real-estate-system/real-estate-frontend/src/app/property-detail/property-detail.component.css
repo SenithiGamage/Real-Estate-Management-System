@@ -5,10 +5,12 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 .detail-container h2 {
   color: #1e3a8a;
+  font-size: 2.2rem;
   margin-bottom: 1.5rem;
   border-bottom: 2px solid #e2e8f0;
   padding-bottom: 0.5rem;
@@ -18,10 +20,12 @@
   font-size: 1.1rem;
   margin: 12px 0;
   line-height: 1.6;
+  color: #475569;
 }
 
 .detail-container strong {
   color: #334155;
+  display: inline-block;
 }
 
 .btn-inquiry {
@@ -31,10 +35,29 @@
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
   margin-top: 1.5rem;
+  transition: background 0.3s ease, transform 0.1s ease;
+  width: 100%;
 }
 
 .btn-inquiry:hover {
   background: #1e3a8a;
+}
+
+.btn-inquiry:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .detail-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .detail-container h2 {
+    font-size: 1.75rem;
+  }
 }
