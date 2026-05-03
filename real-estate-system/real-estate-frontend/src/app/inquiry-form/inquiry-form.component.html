@@ -1,0 +1,11 @@
+<div class="inquiry-form">
+  <h2>Send Inquiry</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <input type="text" [(ngModel)]="inquiry.customerName" placeholder="Your Name" required />
+    <input type="email" [(ngModel)]="inquiry.customerEmail" placeholder="Your Email" required />
+    <textarea [(ngModel)]="inquiry.message" placeholder="Your Message / Requirements" rows="5" required></textarea>
+
+    <button type="submit" class="btn-submit">Send Inquiry</button>
+  </form>
+</div>
