@@ -1,6 +1,32 @@
-<h2>My Inquiries</h2>
-<div *ngFor="let item of inquiries" class="inquiry-card">
-  <h4>{{ item.title }}</h4>
-  <p>{{ item.location }} - Rs. {{ item.price }}</p>
-  <button>View Details</button>
+<div class="inquiry-container">
+  <h2>My Inquiries</h2>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    Loading inquiries...
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <!-- No Data -->
+  <div *ngIf="!loading && inquiries.length === 0" class="no-data">
+    No inquiries found yet.
+  </div>
+
+  <!-- Inquiries Grid -->
+  <div class="inquiries-grid" *ngIf="!loading && inquiries.length > 0">
+    <div *ngFor="let item of inquiries" class="inquiry-card">
+      <h4>{{ item.title || 'Property Inquiry' }}</h4>
+      <p><strong>Location:</strong> {{ item.location }}</p>
+      <p><strong>Price:</strong> Rs. {{ item.price | number }}</p>
+      <p><strong>Type:</strong> {{ item.propertyType }}</p>
+
+      <span class="status status-PENDING">PENDING</span>
+
+      <button class="btn-view">View Details</button>
+    </div>
+  </div>
 </div>

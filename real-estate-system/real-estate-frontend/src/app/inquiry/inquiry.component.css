@@ -1,0 +1,77 @@
+.inquiry-container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.inquiry-container h2 {
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.inquiries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.inquiry-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s;
+}
+
+.inquiry-card:hover {
+  transform: translateY(-5px);
+}
+
+.inquiry-card h4 {
+  margin: 0 0 0.8rem 0;
+  color: #1e40af;
+}
+
+.inquiry-card p {
+  margin: 8px 0;
+  color: #475569;
+}
+
+.inquiry-card .status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.status-PENDING {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-RESPONDED {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.status-CLOSED {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+.btn-view {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.btn-view:hover {
+  background: #2563eb;
+}
