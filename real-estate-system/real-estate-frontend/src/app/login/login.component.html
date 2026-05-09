@@ -1,6 +1,39 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <input [(ngModel)]="username" placeholder="Username" />
-  <input type="password" [(ngModel)]="password" placeholder="Password" />
-  <button (click)="onLogin()">Login</button>
+  <h2>{{ isLoginMode ? 'Login' : 'Register' }}</h2>
+
+  <div *ngIf="message" [class.success]="isSuccess" [class.error]="!isSuccess">
+    {{ message }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()">
+
+    <!-- Login Form -->
+    <div *ngIf="isLoginMode">
+      <input [(ngModel)]="loginData.username" name="username" placeholder="Username" required />
+      <input type="password" [(ngModel)]="loginData.password" name="password" placeholder="Password" required />
+    </div>
+
+    <!-- Register Form -->
+    <div *ngIf="!isLoginMode">
+      <input [(ngModel)]="registerData.username" name="username" placeholder="Username" required />
+      <input [(ngModel)]="registerData.email" name="email" type="email" placeholder="Email" required />
+      <input [(ngModel)]="registerData.fullName" name="fullName" placeholder="Full Name" required />
+      <input type="password" [(ngModel)]="registerData.password" name="password" placeholder="Password" required />
+
+      <select [(ngModel)]="registerData.role" name="role">
+        <option value="CUSTOMER">Customer</option>
+        <option value="SELLER">Seller</option>
+        <option value="AGENT">Agent</option>
+      </select>
+    </div>
+
+    <button type="submit">{{ isLoginMode ? 'Login' : 'Register' }}</button>
+  </form>
+
+  <p class="toggle-text">
+    {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}
+    <span (click)="toggleMode()" class="toggle-link">
+      {{ isLoginMode ? 'Register' : 'Login' }}
+    </span>
+  </p>
 </div>

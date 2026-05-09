@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -21,7 +21,10 @@ export class PropertyListComponent implements OnInit {
   searchTerm = '';
   selectedStatus = '';
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(
+    private propertyService: PropertyService,
+    private cdr: ChangeDetectorRef   // ← Added this
+  ) {}
 
   ngOnInit() {
     this.loadProperties();
@@ -29,17 +32,21 @@ export class PropertyListComponent implements OnInit {
 
   loadProperties() {
     this.loading = true;
+    this.error = '';
+
     this.propertyService.getAllProperties().subscribe({
       next: (data) => {
         console.log('✅ Properties loaded:', data);
         this.properties = data || [];
         this.filteredProperties = [...this.properties];
         this.loading = false;
+        this.cdr.detectChanges();        // ← Force UI update
       },
       error: (err) => {
         console.error('❌ Error:', err);
         this.error = 'Failed to load properties';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -51,5 +58,9 @@ export class PropertyListComponent implements OnInit {
       const matchesStatus = !this.selectedStatus || p.status === this.selectedStatus;
       return matchesSearch && matchesStatus;
     });
+  }
+
+  sendInquiry(property: any) {
+    alert(`Inquiry for: ${property.title}`);
   }
 }

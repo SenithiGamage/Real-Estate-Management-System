@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertyService } from '../property.service';
 
@@ -7,31 +7,38 @@ import { PropertyService } from '../property.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './inquiry.component.html',
-  styleUrl: './inquiry.component.css'     // ← Add this line
+  styleUrl: './inquiry.component.css'
 })
-export class InquiryComponent implements OnInit {
+export class InquiryComponent {
 
   inquiries: any[] = [];
   loading = true;
   error = '';
 
-  constructor(private propertyService: PropertyService) {}
-
-  ngOnInit() {
+  constructor(private propertyService: PropertyService) {
+    // Load immediately
     this.loadInquiries();
   }
 
-  loadInquiries() {
+  private loadInquiries() {
+    this.loading = true;
+    this.error = '';
+
     this.propertyService.getAllProperties().subscribe({
       next: (data) => {
-        this.inquiries = data.slice(0, 6);   // Show only 6 for better UI
+        console.log('✅ Inquiries loaded successfully:', data);
+        this.inquiries = data || [];
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading inquiries', err);
-        this.error = 'Failed to load inquiries. Please try again later.';
+        console.error('❌ Error:', err);
+        this.error = 'Failed to load inquiries';
         this.loading = false;
       }
     });
+  }
+
+  openInquiryForm(item: any) {
+    alert(`Inquiry Form Opened for: ${item.title || 'Property'}`);
   }
 }

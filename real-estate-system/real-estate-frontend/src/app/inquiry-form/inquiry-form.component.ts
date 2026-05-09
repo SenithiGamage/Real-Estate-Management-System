@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PropertyService } from '../property.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-inquiry-form',
@@ -12,6 +12,8 @@ import { PropertyService } from '../property.service';
 })
 export class InquiryFormComponent {
 
+  @Input() propertyId: number | null = null;   // Pass property ID from property card
+
   inquiry = {
     customerName: '',
     customerEmail: '',
@@ -21,8 +23,9 @@ export class InquiryFormComponent {
 
   submitted = false;
   error = '';
+  success = false;
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(private http: HttpClient) {}
 
   onSubmit() {
     if (!this.inquiry.customerName || !this.inquiry.customerEmail || !this.inquiry.message) {
@@ -30,21 +33,30 @@ export class InquiryFormComponent {
       return;
     }
 
-    // TODO: Call backend API when InquiryService is ready
-    console.log('Inquiry Submitted:', this.inquiry);
+    this.inquiry.propertyId = this.propertyId;
 
-    this.submitted = true;
+    this.http.post('http://localhost:8080/api/inquiries', this.inquiry)
+      .subscribe({
+        next: () => {
+          this.success = true;
+          this.submitted = true;
+          this.error = '';
+
+          // Reset form after 3 seconds
+          setTimeout(() => {
+            this.resetForm();
+          }, 3000);
+        },
+        error: (err) => {
+          this.error = err.error?.message || 'Failed to send inquiry. Please try again.';
+        }
+      });
+  }
+
+  resetForm() {
+    this.inquiry = { customerName: '', customerEmail: '', message: '', propertyId: null };
+    this.submitted = false;
+    this.success = false;
     this.error = '';
-
-    // Reset form after successful submission
-    setTimeout(() => {
-      this.inquiry = {
-        customerName: '',
-        customerEmail: '',
-        message: '',
-        propertyId: null
-      };
-      this.submitted = false;
-    }, 2000);
   }
 }
