@@ -1,0 +1,27 @@
+<div class="transaction-container">
+  <h2>💰 Transaction Management</h2>
+
+  <div *ngIf="loading" class="loading">Loading transactions...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div class="transactions-grid" *ngIf="!loading && transactions.length > 0">
+    <div *ngFor="let t of transactions" class="transaction-card">
+      <h4>{{ t.title }}</h4>
+      <p><strong>Location:</strong> {{ t.location }}</p>
+      <p><strong>Price:</strong> Rs. {{ t.price | number }}</p>
+      <p><strong>Status:</strong>
+        <span class="status" [class.sold]="t.status === 'SOLD'" [class.rented]="t.status === 'RENTED'">
+          {{ t.status }}
+        </span>
+      </p>
+
+      <button class="btn-record" (click)="recordTransaction(t)">
+        Record Transaction
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && transactions.length === 0" class="no-data">
+    No completed transactions yet.
+  </div>
+</div>

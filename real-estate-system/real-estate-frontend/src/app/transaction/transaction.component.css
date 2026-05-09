@@ -1,0 +1,56 @@
+.transaction-container {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.transaction-container h2 {
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.transactions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.transaction-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.sold {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.rented {
+  background: #dbeafe;
+  color: #3b82f6;
+}
+
+.btn-record {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.btn-record:hover {
+  background: #059669;
+}
