@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertyService } from '../property.service';
 
@@ -9,14 +9,18 @@ import { PropertyService } from '../property.service';
   templateUrl: './inquiry.component.html',
   styleUrl: './inquiry.component.css'
 })
-export class InquiryComponent {
+export class InquiryComponent implements OnInit {
 
   inquiries: any[] = [];
   loading = true;
   error = '';
 
-  constructor(private propertyService: PropertyService) {
-    // Load immediately
+  constructor(
+    private propertyService: PropertyService,
+    private cdr: ChangeDetectorRef   // ← Added
+  ) {}
+
+  ngOnInit() {
     this.loadInquiries();
   }
 
@@ -29,11 +33,13 @@ export class InquiryComponent {
         console.log('✅ Inquiries loaded successfully:', data);
         this.inquiries = data || [];
         this.loading = false;
+        this.cdr.detectChanges();        // ← Force update
       },
       error: (err) => {
         console.error('❌ Error:', err);
-        this.error = 'Failed to load inquiries';
+        this.error = 'Failed to load inquiries. Backend running?';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

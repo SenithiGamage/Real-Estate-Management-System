@@ -92,3 +92,30 @@
 .btn-view:hover {
   background: #2563eb;
 }
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #3b82f6;
+  font-size: 1.1rem;
+  background: #f0f9ff;
+  border-radius: 8px;
+}
+
+.error-message {
+  text-align: center;
+  padding: 1.5rem;
+  color: #ef4444;
+  background: #fef2f2;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+  background: #f8fafc;
+  border-radius: 8px;
+  font-style: italic;
+}

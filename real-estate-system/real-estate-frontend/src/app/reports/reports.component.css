@@ -1,0 +1,85 @@
+.reports-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reports-container h2 {
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.report-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+
+.report-card h3 {
+  margin: 0 0 1rem 0;
+  color: #475569;
+  font-size: 1.1rem;
+}
+
+.report-card h2 {
+  margin: 0;
+  font-size: 2.8rem;
+  color: #1e40af;
+}
+
+.report-card.available h2 { color: #10b981; }
+.report-card.sold h2 { color: #ef4444; }
+.report-card.rented h2 { color: #8b5cf6; }
+
+.full-width {
+  grid-column: 1 / -1;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.report-table th, .report-table td {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.report-table th {
+  background: #1e3a8a;
+  color: white;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.status-AVAILABLE { background: #d1fae5; color: #10b981; }
+.status-SOLD { background: #fee2e2; color: #ef4444; }
+.status-RENTED { background: #e0e7ff; color: #6366f1; }
+
+.loading, .error-message {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 8px;
+}

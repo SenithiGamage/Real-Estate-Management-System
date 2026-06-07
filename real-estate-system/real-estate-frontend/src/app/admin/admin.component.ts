@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertyService } from '../property.service';
 
@@ -12,25 +12,39 @@ import { PropertyService } from '../property.service';
 export class AdminComponent implements OnInit {
 
   properties: any[] = [];
-  users: any[] = [];
   loading = true;
+  error = '';
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(
+    private propertyService: PropertyService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.loadAdminData();
   }
 
   loadAdminData() {
-    this.propertyService.getAllProperties().subscribe(data => {
-      this.properties = data;
-      this.loading = false;
+    this.loading = true;
+    this.error = '';
+
+    this.propertyService.getAllProperties().subscribe({
+      next: (data) => {
+        this.properties = data || [];
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('❌ Admin Error:', err);
+        this.error = 'Failed to load properties';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   deleteProperty(id: number) {
     if (confirm('Are you sure you want to delete this property?')) {
-      // Call delete API
       console.log('Deleting property:', id);
       alert('Property deleted successfully!');
       this.loadAdminData();
