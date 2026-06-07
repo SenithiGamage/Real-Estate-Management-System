@@ -23,7 +23,7 @@ export class PropertyListComponent implements OnInit {
 
   constructor(
     private propertyService: PropertyService,
-    private cdr: ChangeDetectorRef   // ← Added this
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -40,7 +40,7 @@ export class PropertyListComponent implements OnInit {
         this.properties = data || [];
         this.filteredProperties = [...this.properties];
         this.loading = false;
-        this.cdr.detectChanges();        // ← Force UI update
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('❌ Error:', err);

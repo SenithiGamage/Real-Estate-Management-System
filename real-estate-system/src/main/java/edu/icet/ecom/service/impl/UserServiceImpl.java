@@ -18,32 +18,20 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDTO saveUser(UserDTO userDTO) {
+    public UserDTO saveUser(UserDTO dto) {
         User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
-        user.setEmail(userDTO.getEmail());
-        user.setFullName(userDTO.getFullName());
-        user.setPhone(userDTO.getPhone());
-        user.setRole(userDTO.getRole());
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword()); // TODO: Hash password in production
+        user.setEmail(dto.getEmail());
+        user.setFullName(dto.getFullName());
+        user.setPhone(dto.getPhone());
+        user.setRole(dto.getRole() != null ? dto.getRole() : Role.CUSTOMER);
 
-        User savedUser = userRepository.save(user);
+        User saved = userRepository.save(user);
 
-        UserDTO responseDTO = convertToDTO(savedUser);
-        responseDTO.setPassword(null);
-        return responseDTO;
-    }
-
-    @Override
-    public UserDTO getUserById(Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        return user != null ? convertToDTO(user) : null;
-    }
-
-    @Override
-    public UserDTO findByUsername(String username) {
-        User user = userRepository.findByUsername(username).orElse(null);
-        return user != null ? convertToDTO(user) : null;
+        UserDTO response = convertToDTO(saved);
+        response.setPassword(null);
+        return response;
     }
 
     @Override
@@ -55,15 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUsersByRole(Role role) {
-        return userRepository.findByRole(role).stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean deleteUser(Long id) {
-        userRepository.deleteById(id);
-        return true;
+        return List.of();
     }
 
     private UserDTO convertToDTO(User user) {
@@ -75,5 +55,21 @@ public class UserServiceImpl implements UserService {
         dto.setPhone(user.getPhone());
         dto.setRole(user.getRole());
         return dto;
+    }
+
+    @Override
+    public UserDTO getUserById(Long id) {
+        return userRepository.findById(id).map(this::convertToDTO).orElse(null);
+    }
+
+    @Override
+    public UserDTO findByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteUser(Long id) {
+        userRepository.deleteById(id);
+        return true;
     }
 }

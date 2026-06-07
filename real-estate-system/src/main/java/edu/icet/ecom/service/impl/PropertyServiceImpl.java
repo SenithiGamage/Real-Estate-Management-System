@@ -38,8 +38,9 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDTO getPropertyById(Long id) {
-        Property property = propertyRepository.findById(id).orElse(null);
-        return property != null ? convertToDTO(property) : null;
+        return propertyRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElse(null);
     }
 
     @Override
@@ -65,23 +66,21 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<PropertyDTO> getPropertiesByPriceRange(Double minPrice, Double maxPrice) {
-        return propertyRepository.findByPriceRange(minPrice, maxPrice).stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        return List.of();
     }
 
     @Override
     public List<PropertyDTO> getPropertiesByType(PropertyType type) {
-        return propertyRepository.findAll().stream()
-                .filter(p -> p.getPropertyType() == type)
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        return List.of();
     }
 
     @Override
     public boolean deleteProperty(Long id) {
-        propertyRepository.deleteById(id);
-        return true;
+        if (propertyRepository.existsById(id)) {
+            propertyRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -93,6 +92,7 @@ public class PropertyServiceImpl implements PropertyService {
         property.setLocation(dto.getLocation());
         property.setPrice(dto.getPrice());
         property.setStatus(dto.getStatus());
+        property.setDescription(dto.getDescription());
 
         Property updated = propertyRepository.save(property);
         return convertToDTO(updated);
@@ -112,9 +112,6 @@ public class PropertyServiceImpl implements PropertyService {
         dto.setDescription(property.getDescription());
         dto.setStatus(property.getStatus());
         dto.setCreatedAt(property.getCreatedAt());
-        if (property.getOwner() != null) dto.setOwnerId(property.getOwner().getId());
-        if (property.getAgent() != null) dto.setAgentId(property.getAgent().getId());
         return dto;
     }
-
 }

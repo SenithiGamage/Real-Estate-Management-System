@@ -2,7 +2,9 @@ package edu.icet.ecom.service.impl;
 
 import edu.icet.ecom.dto.InquiryDTO;
 import edu.icet.ecom.entity.Inquiry;
+import edu.icet.ecom.entity.Property;
 import edu.icet.ecom.repository.InquiryRepository;
+import edu.icet.ecom.repository.PropertyRepository;
 import edu.icet.ecom.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,18 @@ import java.util.stream.Collectors;
 public class InquiryServiceImpl implements InquiryService {
 
     private final InquiryRepository inquiryRepository;
+    private final PropertyRepository propertyRepository;
 
     @Override
     public InquiryDTO saveInquiry(InquiryDTO dto) {
+        Property property = propertyRepository.findById(dto.getPropertyId())
+                .orElseThrow(() -> new RuntimeException("Property not found: " + dto.getPropertyId()));
+
         Inquiry inquiry = new Inquiry();
+        inquiry.setProperty(property);
         inquiry.setCustomerName(dto.getCustomerName());
         inquiry.setCustomerEmail(dto.getCustomerEmail());
         inquiry.setMessage(dto.getMessage());
-        if (dto.getVisitDate() != null) {
-            // Handle visit date if needed
-        }
         inquiry.setStatus(dto.getStatus() != null ?
                 edu.icet.ecom.entity.InquiryStatus.valueOf(dto.getStatus()) :
                 edu.icet.ecom.entity.InquiryStatus.PENDING);
@@ -48,20 +52,12 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
-    public List<InquiryDTO> getInquiriesByCustomerEmail(String email) {
-        return inquiryRepository.findByCustomerEmail(email).stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public InquiryDTO updateInquiryStatus(Long id, String status) {
         Inquiry inquiry = inquiryRepository.findById(id).orElse(null);
         if (inquiry == null) return null;
 
         inquiry.setStatus(edu.icet.ecom.entity.InquiryStatus.valueOf(status));
-        Inquiry updated = inquiryRepository.save(inquiry);
-        return convertToDTO(updated);
+        return convertToDTO(inquiryRepository.save(inquiry));
     }
 
     @Override
@@ -73,15 +69,17 @@ public class InquiryServiceImpl implements InquiryService {
     private InquiryDTO convertToDTO(Inquiry inquiry) {
         InquiryDTO dto = new InquiryDTO();
         dto.setId(inquiry.getId());
+        dto.setPropertyId(inquiry.getProperty().getId());
         dto.setCustomerName(inquiry.getCustomerName());
         dto.setCustomerEmail(inquiry.getCustomerEmail());
         dto.setMessage(inquiry.getMessage());
         dto.setStatus(inquiry.getStatus().name());
         dto.setCreatedAt(inquiry.getCreatedAt());
-        if (inquiry.getProperty() != null) {
-            dto.setPropertyId(inquiry.getProperty().getId());
-        }
         return dto;
     }
-}
 
+    @Override
+    public List<InquiryDTO> getInquiriesByCustomerEmail(String email) {
+        return List.of();
+    }
+}

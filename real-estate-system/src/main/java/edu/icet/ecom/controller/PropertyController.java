@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/properties")
+@RequestMapping("/api/properties")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class PropertyController {
 
     private final PropertyService propertyService;
 
-    // Create Property
+    // Create New Property
     @PostMapping
     public ResponseEntity<PropertyDTO> createProperty(@RequestBody PropertyDTO propertyDTO) {
         PropertyDTO saved = propertyService.saveProperty(propertyDTO);
@@ -36,26 +37,6 @@ public class PropertyController {
         return property != null ? ResponseEntity.ok(property) : ResponseEntity.notFound().build();
     }
 
-    // Search by Location
-    @GetMapping("/search")
-    public ResponseEntity<List<PropertyDTO>> searchByLocation(@RequestParam String location) {
-        return ResponseEntity.ok(propertyService.getPropertiesByLocation(location));
-    }
-
-    // Filter by Status
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<PropertyDTO>> getByStatus(@PathVariable PropertyStatus status) {
-        return ResponseEntity.ok(propertyService.getPropertiesByStatus(status));
-    }
-
-    // Filter by Price Range
-    @GetMapping("/price-range")
-    public ResponseEntity<List<PropertyDTO>> getByPriceRange(
-            @RequestParam Double minPrice,
-            @RequestParam Double maxPrice) {
-        return ResponseEntity.ok(propertyService.getPropertiesByPriceRange(minPrice, maxPrice));
-    }
-
     // Update Property
     @PutMapping("/{id}")
     public ResponseEntity<PropertyDTO> updateProperty(
@@ -68,7 +49,18 @@ public class PropertyController {
     // Delete Property
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProperty(@PathVariable Long id) {
-        propertyService.deleteProperty(id);
-        return ResponseEntity.noContent().build();
+        boolean deleted = propertyService.deleteProperty(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    // Search & Filter endpoints
+    @GetMapping("/search")
+    public ResponseEntity<List<PropertyDTO>> searchByLocation(@RequestParam String location) {
+        return ResponseEntity.ok(propertyService.getPropertiesByLocation(location));
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<PropertyDTO>> getByStatus(@PathVariable PropertyStatus status) {
+        return ResponseEntity.ok(propertyService.getPropertiesByStatus(status));
     }
 }

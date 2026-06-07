@@ -33,15 +33,12 @@ CREATE TABLE properties (
 );
 
 CREATE TABLE inquiries (
-       id BIGINT AUTO_INCREMENT PRIMARY KEY,
-       property_id BIGINT NOT NULL,
-       customer_id BIGINT NOT NULL,
-       customer_name VARCHAR(100) NOT NULL,
-       customer_email VARCHAR(100) NOT NULL,
-       message TEXT NOT NULL,
-       visit_date DATE,
-       status ENUM('PENDING', 'RESPONDED', 'CLOSED') DEFAULT 'PENDING',
-       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-       FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
-       FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE CASCADE
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        property_id BIGINT NOT NULL,
+        customer_name VARCHAR(100) NOT NULL,
+        customer_email VARCHAR(100) NOT NULL,
+        message TEXT NOT NULL,
+        status ENUM('PENDING', 'RESPONDED', 'CLOSED') DEFAULT 'PENDING',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
 );

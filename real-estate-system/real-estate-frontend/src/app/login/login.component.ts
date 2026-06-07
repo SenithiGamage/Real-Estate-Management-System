@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,67 +12,29 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent {
 
-  isLoginMode = true; // Toggle between Login and Register
-
-  loginData = {
+  credentials = {
     username: '',
     password: ''
   };
 
-  registerData = {
-    username: '',
-    email: '',
-    fullName: '',
-    password: '',
-    role: 'CUSTOMER' as 'CUSTOMER' | 'SELLER' | 'AGENT'
-  };
+  error = '';
+  loading = false;
 
-  message = '';
-  isSuccess = false;
+  constructor(private router: Router) {}
 
-  constructor(private http: HttpClient) {}
+  onLogin() {
+    this.loading = true;
+    this.error = '';
 
-  toggleMode() {
-    this.isLoginMode = !this.isLoginMode;
-    this.message = '';
-  }
-
-  onSubmit() {
-    if (this.isLoginMode) {
-      this.login();
-    } else {
-      this.register();
-    }
-  }
-
-  login() {
-    this.http.post('http://localhost:8080/api/users/login', this.loginData)
-      .subscribe({
-        next: (response: any) => {
-          this.message = 'Login Successful!';
-          this.isSuccess = true;
-          alert('Welcome! Login Successful.');
-          // TODO: Save token and redirect
-        },
-        error: (err) => {
-          this.message = 'Invalid username or password';
-          this.isSuccess = false;
-        }
-      });
-  }
-
-  register() {
-    this.http.post('http://localhost:8080/api/users/register', this.registerData)
-      .subscribe({
-        next: (response) => {
-          this.message = 'Registration Successful! You can now login.';
-          this.isSuccess = true;
-          this.toggleMode(); // Switch to login mode
-        },
-        error: (err) => {
-          this.message = err.error?.message || 'Registration Failed';
-          this.isSuccess = false;
-        }
-      });
+    // Mock login (replace with real API call later)
+    setTimeout(() => {
+      if (this.credentials.username && this.credentials.password) {
+        alert('✅ Login Successful! (Mock)');
+        this.router.navigate(['/']);
+      } else {
+        this.error = 'Please enter username and password';
+      }
+      this.loading = false;
+    }, 800);
   }
 }

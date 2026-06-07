@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertyService } from '../property.service';
 
@@ -15,27 +15,45 @@ export class TransactionComponent implements OnInit {
   loading = true;
   error = '';
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(
+    private propertyService: PropertyService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.loadTransactions();
   }
 
-  loadTransactions() {
-    // For demo, we'll use properties as sold/rented items
+  private loadTransactions() {
+    this.loading = true;
+    this.error = '';
+
+    // For now, we reuse properties and simulate transactions
     this.propertyService.getAllProperties().subscribe({
       next: (data) => {
-        this.transactions = data.filter(p => p.status === 'SOLD' || p.status === 'RENTED');
+        // Mock transaction data based on sold/rented properties
+        this.transactions = (data || [])
+          .filter(p => p.status === 'SOLD' || p.status === 'RENTED')
+          .map(p => ({
+            id: p.id,
+            propertyTitle: p.title,
+            location: p.location,
+            price: p.price,
+            type: p.propertyType,
+            status: p.status,
+            date: new Date().toISOString().split('T')[0], // Mock date
+            customer: 'John Doe' // Mock customer
+          }));
+
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
+        console.error('❌ Error loading transactions:', err);
         this.error = 'Failed to load transactions';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
-  }
-
-  recordTransaction(property: any) {
-    alert(`Transaction recorded for: ${property.title}\nStatus: ${property.status}`);
   }
 }
