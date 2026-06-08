@@ -1,0 +1,58 @@
+<div class="reports-container">
+  <h2>📊 MIS Reports</h2>
+
+  <div *ngIf="loading" class="loading">Generating Reports...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!loading" class="reports-grid">
+
+    <!-- Summary Cards -->
+    <div class="report-card">
+      <h3>Total Properties</h3>
+      <h2>{{ totalProperties }}</h2>
+    </div>
+
+    <div class="report-card available">
+      <h3>Available</h3>
+      <h2>{{ availableProperties }}</h2>
+    </div>
+
+    <div class="report-card sold">
+      <h3>Sold</h3>
+      <h2>{{ soldProperties }}</h2>
+    </div>
+
+    <div class="report-card rented">
+      <h3>Rented</h3>
+      <h2>{{ rentedProperties }}</h2>
+    </div>
+
+    <!-- Properties Table -->
+    <div class="full-width">
+      <h3>Property Status Report</h3>
+      <table class="report-table">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Location</th>
+          <th>Price</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of properties">
+          <td>{{ p.title }}</td>
+          <td>{{ p.location }}</td>
+          <td>Rs. {{ p.price | number }}</td>
+          <td>{{ p.propertyType }}</td>
+          <td>
+            <span class="status status-{{ p.status }}">{{ p.status }}</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
